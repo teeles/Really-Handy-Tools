@@ -1,0 +1,69 @@
+#!/bin/bash
+
+###############################################
+#  V0.1
+#  16/02/24
+#  Thomas Eeles.
+#  
+#  Script that will autogenerate a complex random password
+###############################################
+
+######FUNCTIONS######## LC_CTYPE=C tr -dc '[:graph:]' < /dev/urandom | head -c
+secure(){
+new_password=$(LC_CTYPE=C tr -dc '[:graph:]' < /dev/urandom | head -c 12)
+
+echo "$new_password"
+
+exit 0
+}
+
+supersecure(){
+new_password=$(LC_CTYPE=C tr -dc '[:graph:]' < /dev/urandom | head -c 15)
+
+echo "$new_password"
+
+exit 0
+}
+
+supermegasecure(){
+new_password=$(LC_CTYPE=C tr -dc '[:graph:]' < /dev/urandom | head -c 30)
+
+echo "$new_password"
+
+exit 0
+}
+
+##### MAIN SCRIPT #####
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -secure)
+            secure
+            ;;
+        -supersecure)
+            supersecure
+            ;;
+        -supermegasecure)
+            supermegasecure
+            ;;
+        -help)
+            echo "Password Generator Help"
+            echo -e "All passwords will have a mix of alpha, numerical, uper and lower case, and symbols\n"
+            echo -e "-secure will generate a 12 character password\n"
+            echo -e "-supersecure will generate a 15 character password\n"
+            echo -e "-supermegasecure will generate a 30 character password\n"
+            exit 0
+            ;;
+        *)
+            echo "Unknown option: $1"
+            echo "Use -help for usage information."
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+if [ $# -eq 0 ]; then
+    echo "Use -help for usage information."
+    exit 1
+fi
